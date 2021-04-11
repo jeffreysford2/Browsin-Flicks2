@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand ml-auto">Browsin' Flicks</a>
+            <div class="d-flex">
+                <% if(!currentUser){ %>
+                <a class="nav-link" style="color:white;" href="/login">Login</a>
+                <a class="nav-link" style="color:white;" href="/register">Register</a>
+                <% }else{ %>
+                <a class="nav-link" style="color:white;" href="/logout">Logout</a>
+                <% } %>
+            </div>
+        </div>
+    </nav>
+
+    <form action="/" method="GET" class="filter-container">
+        <div id="filter-container">
+            <div id="filter-row-one">
+                <!-- <div id="filter-block">
+                    <h3>Choose a Minimum Rating:</h3>
+                    <label for="rating">Minimum Rating: </label>
+                    <output id="ratingNumber" name="ratingNumber" for="rating"><%=filterVals.rating%></output>
+                    <p></p>
+                    <input type="range" id="rating" name="rating" min="0" max="10" step="0.1"
+                        value="<%=filterVals.rating%>" oninput="ratingNumber.value=rating.value">
+                </div> -->
+                <!-- <div id="filter-block">
+                    <h3>Choose a release year range:</h3>
+                    <label for="minYear">Beginning Year: </label>
+                    <input type="number" id="minYear" name="minYear" min="1900" max="2021"
+                        value="<%=filterVals.minYear%>">
+                    <p></p>
+                    <label for="maxYear">Ending Year: </label>
+                    <input type="number" id="maxYear" name="maxYear" min="1900" max="2021"
+                        value="<%=filterVals.maxYear%>">
+                </div> -->
+
+                <!-- <div id="filter-block">
+                    <h3>Choose a minimum of how well known movie is:</h3>
+                    <label for="wellKnown2"></label>
+                    <output id="wellKnownOutput2" name="wellKnownOutput2" for="wellKnown2"><%if(filterVals.wellKnown<2000){%>Unknown<%}%></output>
+                    <p></p>
+                    <input type="range" id="wellKnown2" name="wellKnown" min="0" max="8000" step="1"
+                        value="<%=filterVals.wellKnown%>">
+                        <p></p>
+                </div> -->
+
+
+                <!-- <div id="filter-block" class="genre-block">
+
+                    <h3>Choose one or more genres:</h3>
+                    <div class="genres">
+                        <br>
+                        <div id="individual-genre">
+                            <input type="checkbox" id="action" name="action"
+                                <% if (filterVals.action){ %>checked<% } %>>
+                            <label for="action">Action</label>
+                        </div>
+                        <div id="individual-genre">
+                            <input type="checkbox" id="adventure" name="adventure"
+                                <% if (filterVals.adventure){ %>checked<% } %>>
+                            <label for="adventure">Adventure</label>
+                        </div>
+                        <div id="individual-genre">
+                            <input type="checkbox" id="animated" name="animated"
+                                <% if (filterVals.animated){ %>checked<% } %>>
+                            <label for="animated">Animated</label>
+                        </div>
+                        <div id="individual-genre">
+                            <input type="checkbox" id="comedy" name="comedy"
+                                <% if (filterVals.comedy){ %>checked<% } %>>
+                            <label for="comedy">Comedy</label>
+                        </div>
+                        <div id="individual-genre">
+                            <input type="checkbox" id="crime" name="crime" <% if (filterVals.crime){ %>checked<% } %>>
+                            <label for="crime">Crime</label>
+
+                        </div>
+                        <div id="individual-genre">
+                            <input type="checkbox" id="documentary" name="documentary"
+                                <% if (filterVals.documentary){ %>checked<% } %>>
+                            <label for="documentary">Documentary</label>
+                        </div>
+                        <div id="individual-genre">
+                            <input type="checkbox" id="drama" name="drama" <% if (filterVals.drama){ %>checked<% } %>>
+                            <label for="drama">Drama</label>
+                        </div>
+                        <div id="individual-genre">
+                            <input type="checkbox" id="family" name="family"
+                                <% if (filterVals.family){ %>checked<% } %>>
+                            <label for="family">Family</label>
+                        </div>
+                        <div id="individual-genre">
+                            <input type="checkbox" id="fantasy" name="fantasy"
+                                <% if (filterVals.fantasy){ %>checked<% } %>>
+                            <label for="fantasy">Fantasy</label>
+                        </div>
+                        <div id="individual-genre">
+                            <input type="checkbox" id="history" name="history"
+                                <% if (filterVals.history){ %>checked<% } %>>
+                            <label for="history">History</label>
+                        </div>
+                        <div id="individual-genre">
+                            <input type="checkbox" id="horror" name="horror"
+                                <% if (filterVals.horror){ %>checked<% } %>>
+                            <label for="horror">Horror</label>
+                        </div>
+                        <div id="individual-genre">
+                            <input type="checkbox" id="music" name="music" <% if (filterVals.music){ %>checked<% } %>>
+                            <label for="music">Music</label>
+                        </div>
+                        <div id="individual-genre">
+                            <input type="checkbox" id="mystery" name="mystery"
+                                <% if (filterVals.mystery){ %>checked<% } %>>
+                            <label for="mystery">Mystery</label>
+                        </div>
+                        <div id="individual-genre">
+                            <input type="checkbox" id="romance" name="romance"
+                                <% if (filterVals.romance){ %>checked<% } %>>
+                            <label for="romance">Romance</label>
+                        </div>
+                        <div id="individual-genre">
+                            <input type="checkbox" id="science_fiction" name="science_fiction"
+                                <% if (filterVals.science_fiction){ %>checked<% } %>>
+                            <label for="science_fiction">Sci-fi</label>
+                        </div>
+                        <div id="individual-genre">
+                            <input type="checkbox" id="thriller" name="thriller"
+                                <% if (filterVals.thriller){ %>checked<% } %>>
+                            <label for="thriller">Thriller</label>
+                        </div>
+                        <div id="individual-genre">
+                            <input type="checkbox" id="tv_movie" name="tv_movie"
+                                <% if (filterVals.tv_movie){ %>checked<% } %>>
+                            <label for="tv_movie">TV Movie</label>
+                        </div>
+                        <div id="individual-genre">
+                            <input type="checkbox" id="war2" name="war2">
+                            <label for="war2">War</label>
+                        </div>
+                        <div id="individual-genre">
+                            <input type="checkbox" id="western2" name="western2"
+                                <% if (filterVals.western){ %>checked<% } %>>
+                            <label for="western2">Western</label>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+
+        </div>
+        <div class='row'>
+            <div class="card col-md-3 col-xs-12 mx-auto" style="border-radius: 10px; margin:10px;">
+                <div class="card-body" id="filter-block2">
+                    <b style="font-size:16px;">Choose a Minimum Rating:</b>
+                    <div class="slider">
+                        <label for="rating" style="font-size: 14px;">Minimum Rating: </label>
+                        <output id="ratingNumber" name="ratingNumber" for="rating"><%=filterVals.rating%></output>
+                        <p></p>
+                        <input type="range" class="form-range" id="rating" name="rating" min="0" max="10" step="0.1"
+                            value="<%=filterVals.rating%>" oninput="ratingNumber.value=rating.value">
+                    </div>
+                </div>
+            </div>
+            <div class="card col-md-3 col-xs-12 mx-auto" style="border-radius: 10px; margin:10px;">
+                <div class=" card-body" id="filter-block2">
+                    <b style="font-size:16px;">Choose a release year range:</b>
+                    <br>
+                    <label for="minYear" style="font-size: 14px;">Beginning Year: </label>
+                    <input type="number" id="minYear" name="minYear" min="1900" max="2021"
+                        value="<%=filterVals.minYear%>">
+                    <p></p>
+                    <label for="maxYear" style="font-size: 14px;">Ending Year: </label>
+                    <input type="number" id="maxYear" name="maxYear" min="1900" max="2021"
+                        value="<%=filterVals.maxYear%>">
+                </div>
+            </div>
+            <div class="card col-md-3 col-xs-12 mx-auto" style="border-radius: 10px; margin:10px;">
+                <div class="card-body" id="filter-block2">
+                    <b style="font-size:16px;">Choose a minimum of how well known movie is:</b>
+                    <div class="slider">
+                        <label class="form-label" for="wellKnown"></label>
+                        <output id="wellKnownOutput" name="wellKnownOutput" for="wellKnown"><%if(filterVals.wellKnown<2000){%>Unknown<%}%></output>
+
+            <input type="range" class="form-range" id="wellKnown2" name="wellKnown" min="0" max="8000" step="1" styles="width:50px;"
+                value="<%=filterVals.wellKnown%>">
+                            <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="border-radius: 10px; margin:10px;">
+            <b>Genres:</b>
+            <div id="new-genre-container" class="flex-wrap">
+                <div class="form-check form-check-inline" style="width:100px;">
+                    <input type="checkbox" class="form-check-input" id="action" name="action"
+                        <% if (filterVals.action){ %>checked<% } %>>
+                    <label class="form-check-label" for="action">Action</label>
+                </div>
+                <div class="form-check form-check-inline" style="width:100px;">
+                    <input type="checkbox" class="form-check-input" id="adventure" name="adventure"
+                        <% if (filterVals.adventure){ %>checked<% } %>>
+                    <label class="form-check-label" for="adventure">Adventure</label>
+                </div>
+                <div class="form-check form-check-inline" style="width:100px;">
+                    <input type="checkbox" class="form-check-input" id="animated" name="animated"
+                        <% if (filterVals.animated){ %>checked<% } %>>
+                    <label class="form-check-label" for="animated">Animated</label>
+                </div>
+                <div class="form-check form-check-inline" style="width:100px;">
+                    <input type="checkbox" class="form-check-input" id="comedy" name="comedy"
+                        <% if (filterVals.comedy){ %>checked<% } %>>
+                    <label class="form-check-label" for="comedy">Comedy</label>
+                </div>
+                <div class="form-check form-check-inline" style="width:100px;">
+                    <input type="checkbox" class="form-check-input" id="crime" name="crime"
+                        <% if (filterVals.crime){ %>checked<% } %>>
+                    <label class="form-check-label" for="crime">Crime</label>
+                </div>
+                <div class="form-check form-check-inline" style="width:115px;">
+                    <input type="checkbox" class="form-check-input" id="documentary" name="documentary"
+                        <% if (filterVals.documentary){ %>checked<% } %>>
+                    <label class="form-check-label" for="documentary">Documentary</label>
+                </div>
+                <div class="form-check form-check-inline" style="width:100px;">
+                    <input type="checkbox" class="form-check-input" id="drama" name="drama"
+                        <% if (filterVals.drama){ %>checked<% } %>>
+                    <label class="form-check-label" for="drama">Drama</label>
+                </div>
+                <div class="form-check form-check-inline" style="width:100px;">
+                    <input type="checkbox" class="form-check-input" id="family" name="family"
+                        <% if (filterVals.family){ %>checked<% } %>>
+                    <label class="form-check-label" for="family">Family</label>
+                </div>
+                <div class="form-check form-check-inline" style="width:100px;">
+                    <input type="checkbox" class="form-check-input" id="fantasy" name="fantasy"
+                        <% if (filterVals.fantasy){ %>checked<% } %>>
+                    <label class="form-check-label" for="fantasy">Fantasy</label>
+                </div>
+                <div class="form-check form-check-inline" style="width:100px;">
+                    <input type="checkbox" class="form-check-input" id="history" name="history"
+                        <% if (filterVals.history){ %>checked<% } %>>
+                    <label class="form-check-label" for="history">History</label>
+                </div>
+                <div class="form-check form-check-inline" style="width:100px;">
+                    <input type="checkbox" class="form-check-input" id="horror" name="horror"
+                        <% if (filterVals.horror){ %>checked<% } %>>
+                    <label class="form-check-label" for="horror">Horror</label>
+                </div>
+                <div class="form-check form-check-inline" style="width:100px;">
+                    <input type="checkbox" class="form-check-input" id="music" name="music"
+                        <% if (filterVals.music){ %>checked<% } %>>
+                    <label class="form-check-label" for="music">Music</label>
+                </div>
+                <div class="form-check form-check-inline" style="width:100px;">
+                    <input type="checkbox" class="form-check-input" id="mystery" name="mystery"
+                        <% if (filterVals.mystery){ %>checked<% } %>>
+                    <label class="form-check-label" for="mystery">Mystery</label>
+                </div>
+                <div class="form-check form-check-inline" style="width:100px;">
+                    <input type="checkbox" class="form-check-input" id="romance" name="romance"
+                        <% if (filterVals.romance){ %>checked<% } %>>
+                    <label class="form-check-label" for="romance">Romance</label>
+                </div>
+                <div class="form-check form-check-inline" style="width:100px;">
+                    <input type="checkbox" class="form-check-input" id="science_fiction" name="science_fiction"
+                        <% if (filterVals.science_fiction){ %>checked<% } %>>
+                    <label class="form-check-label" for="science_fiction">Sci-fi</label>
+                </div>
+                <div class="form-check form-check-inline" style="width:100px;">
+                    <input type="checkbox" class="form-check-input" id="thriller" name="thriller"
+                        <% if (filterVals.thriller){ %>checked<% } %>>
+                    <label class="form-check-label" for="thriller">Thriller</label>
+                </div>
+                <div class="form-check form-check-inline" style="width:115px;">
+                    <input type="checkbox" class="form-check-input" id="tv_movie" name="tv_movie"
+                        <% if (filterVals.tv_movie){ %>checked<% } %>>
+                    <label class="form-check-label" for="tv_movie">TV Movie</label>
+                </div>
+                <div class="form-check form-check-inline" style="width:100px;">
+                    <input type="checkbox" class="form-check-input" id="war" name="war">
+                    <label class="form-check-label" for="war">War</label>
+                </div>
+                <div class="form-check form-check-inline" style="width:100px;">
+                    <input type="checkbox" class="form-check-input" id="western" name="western"
+                        <% if (filterVals.western){ %>checked<% } %>>
+                    <label class="form-check-label" for="western">Western</label>
+                </div>
+            </div>
+        </div>
+        <button type="submit" id="browse">Browse movies by filters</button>
+    </form>
+
+
+    <div id="container">
+        <% if(typeof movies !== 'undefined'){ %>
+        <% for (let movie of movies){ %>
+        <a href="/<%=movie.id%>">
+            <div id="movie-block" name="<%=movie.id%>">
+                <% if (movie.poster_path){ %>
+                <img src="https://image.tmdb.org/t/p/w342<%=movie.poster_path%>" alt="">
+                <div class="overlay"></div>
+                <%}%>
+            <h4 style="font-size: 14px;"><%=movie.original_title%></h4>
+                <h5 style="font-size: 12px;">Average Rating: <%=movie.vote_average%></h5>
+            </div>
+        </a>
+        <% } %>
+        <% } %>
+    </div>
+
+
+    </div>
+
+    <script>
+        // window.onclick = e => {
+        //     const movieId = e.target.parentNode.attributes.name.value;  // to get the element tag name alone
+        // }
+
+    </script>
+    <!-- <script src="../public/js/elements.js"></script>
+    <script src="../public/js/code.js"></script> -->
+
+
+
+</body>
+
+</html>

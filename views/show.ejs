@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+
+    <div class=background-image-container>
+        <img class='background-image' src="https://image.tmdb.org/t/p/w1280<%=movie.backdrop_path%>"" alt="">
+    <div id=" movie-tagline"><%=movie.tagline %> </div>
+    </div>
+
+
+    <div class=" movie-container">
+        <div>
+            <img class="poster-image" src="https://image.tmdb.org/t/p/w342<%=movie.poster_path%>" alt="">
+        </div>
+        <div id="info">
+            <h1><%=movie.title %> (<%= movie.release_date.substring(0, 4) %>) </h1>
+            Average Rating: <%=movie.vote_average%><br>
+            <h3>Synopsis:</h3>
+            <%= movie.overview %>
+            <h3 id="genres">Genres:</h3>
+            <% for (let i = 0; i< movie.genres.length; i++){ %>
+            <%if(i!==movie.genres.length-1){%>
+            <%=movie.genres[i].name %> -
+            <% }else{ %>
+            <%=movie.genres[i].name %>
+            <% } %>
+            <% } %>
+            <br>
+            <br>
+            <b>Runtime:</b> <%=Math.floor(movie.runtime/60)%>h
+            <%=movie.runtime%60%>min<br>Original Language: <%=movie.original_language%>
+            <br>
+            <br>
+            <b>Staring:</b>
+            <div id="cast-container">
+                <% for (let i = 0; i < 6; i ++){ %>
+                <div id="cast">
+                    <img id="cast-images" src="https://image.tmdb.org/t/p/w45<%=cast.cast[i].profile_path%>" alt="">
+                    <div id="cast-words">
+                        <div id="cast-names"><%=cast.cast[i].name %></div>
+
+                        <div id="cast-roles"> as <b><%=cast.cast[i].character %></b></div>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+
+
+
+            <% if(watchProvidersUS){ %>
+            <% if(watchProvidersUS.flatrate){ %>
+            <div id="watch-providers-container">
+                <h3>Subscription Services:</h3>
+                <% for(let providers of watchProvidersUS.flatrate){ %>
+                <img id="provider-images" src="https://image.tmdb.org/t/p/w92<%=providers.logo_path%>" alt="">
+                <% } %>
+            </div>
+            <% } %>
+            <% } %>
+
+
+        </div>
+    </div>
+
+
+    <button onclick="goBack()">Go Back</button>
+
+
+</body>
+
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+
+
+</html>
