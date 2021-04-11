@@ -27,9 +27,6 @@
         <div id="info">
             <h1><%=movie.title %> (<%= movie.release_date.substring(0, 4) %>) </h1>
             <% console.log('currentUser:',currentUser) %>
-
-
-
             <% if(currentUser) {%>
             <% if(parseInt(currentUser.likes[0]) !== movie.id) {%>
             <button onclick=""
