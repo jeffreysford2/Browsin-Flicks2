@@ -63,12 +63,8 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-
     console.log('req Monkey', req.user)
     res.locals.currentUser = req.user;
-    console.log('req.session', req.session)
-    //console.log('req.user:', req)
-    //console.log('res.locals.currentUser:', res.locals.currentUser)
     // res.locals.success = req.flash('success');
     // res.locals.error = req.flash('error');
     next();
@@ -128,13 +124,18 @@ app.get('/logout', async (req, res) => {
     res.redirect('/');
 })
 
-app.get('/:id', async (req, res) => {
+app.get('/:id', catchAsync(async (req, res, next) => {
+    console.log('reqDog', req)
+    console.log('reqDogUser', req.user)
+    // res.locals.currentUser = req.user;
+    // console.log('currentUser is:', currentUser)
     const movieId = String(req.params.id)
     const movie = await getMovieById(movieId)
     const cast = await getCastById(movieId)
     const watchProvidersUS = await getWatchProvidersById(movieId)
+
     await res.render('show', { movie, cast, watchProvidersUS })
-})
+}))
 
 app.listen(3000, () => {
     console.log('serving on port 3000')

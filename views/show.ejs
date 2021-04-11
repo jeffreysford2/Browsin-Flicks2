@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Show</title>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 
@@ -16,12 +18,19 @@
     </div>
 
 
-    <div class=" movie-container">
+    <div class="movie-container">
         <div>
             <img class="poster-image" src="https://image.tmdb.org/t/p/w342<%=movie.poster_path%>" alt="">
         </div>
         <div id="info">
             <h1><%=movie.title %> (<%= movie.release_date.substring(0, 4) %>) </h1>
+            <button onclick="addToLikedMovies()"
+                style="position: relative; left: 80%; top: -10%; color:#FFFFFF; background-color: lightgreen;">Click
+                to Like</button>
+            <button
+                style="position: relative; left: 80%; top: -10%; color:#FFFFFF; background-color: rgb(236, 105, 105);">Click
+                to Dislike</button>
+            <br>
             Average Rating: <%=movie.vote_average%><br>
             <h3>Synopsis:</h3>
             <%= movie.overview %>
@@ -65,8 +74,6 @@
             </div>
             <% } %>
             <% } %>
-
-
         </div>
     </div>
 
@@ -81,6 +88,9 @@
     function goBack() {
         window.history.back();
     }
+    // function addToLikedMovies() {
+    //     console.log(currentUser)
+    // }
 </script>
 
 

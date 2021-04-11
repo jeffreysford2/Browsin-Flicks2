@@ -304,8 +304,9 @@
         <button type="submit" id="browse">Browse movies by filters</button>
     </form>
 
-
+    <% console.log('currentUser:',currentUser) %>
     <div id="container">
+
         <% if(typeof movies !== 'undefined'){ %>
         <% for (let movie of movies){ %>
         <a href="/<%=movie.id%>">
@@ -329,6 +330,7 @@
         // window.onclick = e => {
         //     const movieId = e.target.parentNode.attributes.name.value;  // to get the element tag name alone
         // }
+
 
     </script>
     <!-- <script src="../public/js/elements.js"></script>
