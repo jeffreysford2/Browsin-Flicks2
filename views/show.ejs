@@ -18,19 +18,30 @@
     </div>
 
 
+
+
     <div class="movie-container">
         <div>
             <img class="poster-image" src="https://image.tmdb.org/t/p/w342<%=movie.poster_path%>" alt="">
         </div>
         <div id="info">
             <h1><%=movie.title %> (<%= movie.release_date.substring(0, 4) %>) </h1>
-            <button onclick="addToLikedMovies()"
+            <% console.log('currentUser:',currentUser) %>
+
+
+
+            <% if(currentUser) {%>
+            <% if(parseInt(currentUser.likes[0]) !== movie.id) {%>
+            <button onclick=""
                 style="position: relative; left: 80%; top: -10%; color:#FFFFFF; background-color: lightgreen;">Click
                 to Like</button>
+            <%}else{%>
             <button
                 style="position: relative; left: 80%; top: -10%; color:#FFFFFF; background-color: rgb(236, 105, 105);">Click
                 to Dislike</button>
             <br>
+            <% } %>
+            <% } %>
             Average Rating: <%=movie.vote_average%><br>
             <h3>Synopsis:</h3>
             <%= movie.overview %>
@@ -88,9 +99,9 @@
     function goBack() {
         window.history.back();
     }
-    // function addToLikedMovies() {
-    //     console.log(currentUser)
-    // }
+    function addToLikedMovies() {
+        console.log("Here is where we need to add movie to liked list")
+    }
 </script>
 
 

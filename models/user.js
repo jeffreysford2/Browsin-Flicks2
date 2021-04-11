@@ -8,9 +8,7 @@ const UserSchema = new Schema({
         required: true,
         unique: true
     },
-    likes: {
-        movieId: String
-    }
+    likes: Array
 });
 
 UserSchema.plugin(passportLocalMongoose);

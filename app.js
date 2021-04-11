@@ -27,6 +27,7 @@ mongoose.connect(dbUrl, {
     useFindAndModify: false
 });
 
+
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
@@ -90,6 +91,7 @@ app.post('/register', catchAsync(async (req, res, next) => {
     try {
         const { email, username, password } = req.body;
         const user = new User({ email, username });
+        user.likes.push('791373')
         const registeredUser = await User.register(user, password);
         console.log(`registerdUser:${registeredUser}`)
         const name = await registeredUser.username
@@ -131,6 +133,7 @@ app.get('/:id', catchAsync(async (req, res, next) => {
     // console.log('currentUser is:', currentUser)
     const movieId = String(req.params.id)
     const movie = await getMovieById(movieId)
+    await console.log(movie)
     const cast = await getCastById(movieId)
     const watchProvidersUS = await getWatchProvidersById(movieId)
 
