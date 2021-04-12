@@ -2,6 +2,7 @@ if (process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
 const API_KEY = process.env.API_KEY;
+const secret_KEY = process.env.SECRET;
 
 const express = require('express');
 const app = express();
@@ -43,7 +44,7 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')))
 
 const sessionConfig = {
-    secret: 'thisshouldbeabettersecret!',
+    secret: secret_KEY,
     resave: false,
     saveUninitialized: true,
     cookie: {
