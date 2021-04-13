@@ -19,6 +19,8 @@ const User = require('./models/user');
 const isLoggedIn = require('./middleware');
 const catchAsync = require('./utils/catchAsync');
 
+
+
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/MovieBrowse';
 
 mongoose.connect(dbUrl, {
@@ -93,6 +95,8 @@ app.post('/register', catchAsync(async (req, res, next) => {
         const { email, username, password } = req.body;
         const user = new User({ email, username });
         user.likes.push('791373')
+        user.likes.push('508442')
+        console.log('look', typeof (user.likes))
         const registeredUser = await User.register(user, password);
         console.log(`registerdUser:${registeredUser}`)
         const name = await registeredUser.username
@@ -130,9 +134,42 @@ app.get('/logout', async (req, res) => {
 app.get('/:id', catchAsync(async (req, res, next) => {
     console.log('reqDog', req)
     console.log('reqDogUser', req.user)
+    console.log('typeof', typeof (req.user.likes))
     // res.locals.currentUser = req.user;
     // console.log('currentUser is:', currentUser)
     const movieId = String(req.params.id)
+    console.log(req.user)
+    const movie = await getMovieById(movieId)
+    await console.log(movie)
+    const cast = await getCastById(movieId)
+    const watchProvidersUS = await getWatchProvidersById(movieId)
+
+    await res.render('show', { movie, cast, watchProvidersUS })
+}))
+
+app.post('/:id', catchAsync(async (req, res, next) => {
+    const movieId = String(req.params.id)
+    console.log('movieId', movieId)
+    console.log('reqDogUser', req.user)
+    console.log('req.user.likes', req.user.likes)
+    const currentLikes = req.user.likes
+    console.log(currentLikes)
+    console.log(currentLikes.keys)
+    console.log(typeof (currentLikes))
+    console.log(movieId)
+    console.log(typeof (movieId))
+    var currentLikesArray = Array.prototype.slice.call(currentLikes)
+    console.log(currentLikesArray)
+    console.log(typeof (currentLikesArray))
+    var temp = [movieId]
+    var updatedLikes = currentLikesArray.concat(temp)
+    console.log(typeof (updatedLikes))
+    console.log('updatedLikes,', updatedLikes)
+    // res.locals.currentUser = req.user;
+    // console.log('currentUser is:', currentUser)
+    db.collection("users").updateOne({ username: req.user.username }, { $set: { likes: updatedLikes } })
+
+    console.log(req.user)
     const movie = await getMovieById(movieId)
     await console.log(movie)
     const cast = await getCastById(movieId)

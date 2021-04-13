@@ -8,6 +8,13 @@
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="../css/styles.css">
+    <script>
+        <%if (currentUser !== undefined) {%>
+            console.log(<% currentUser.likes %>)
+            var likesString = '<%- currentUser.likes %>'
+            console.log(likesString)
+                <%}%>
+    </script>
 </head>
 
 <body>
@@ -24,18 +31,28 @@
         </div>
         <div id="info">
             <h1><%=movie.title %> (<%= movie.release_date.substring(0, 4) %>) </h1>
-            <% console.log('currentUser:',currentUser) %>
             <% if(currentUser) {%>
-            <% if(parseInt(currentUser.likes[0]) !== movie.id) {%>
-            <button onclick=""
-                style="position: relative; float: right; float:top; color:#FFFFFF; background-color: lightgreen;">Click
-                to Like</button>
-            <%}else{%>
+            <% var movieLiked = false; %>
+            <% for(let curLike of currentUser.likes) {%>
+            <% if(parseInt(curLike) === movie.id) {%>
+            <% movieLiked = true; %>
             <button
                 style="position: relative; float: right; float:top; color:#FFFFFF; background-color: rgb(236, 105, 105);">Click
                 to Dislike</button>
-            <br>
             <% } %>
+            <% } %>
+            <% if(!movieLiked) {%>
+            <form action="/<%=movie.id%>" method="POST" class="validated-form" novalidate>
+                <button id="likeButton"
+                    style="position: relative; float: right; float:top; color:#FFFFFF; background-color: lightgreen;">Click
+                    to Like</button>
+            </form>
+
+
+            <%}%>
+            
+            <br>
+            
             <% } %>
             Average Rating: <%=movie.vote_average%><br>
             <h3>Synopsis:</h3>
@@ -91,12 +108,16 @@
 
 
 <script>
-    function goBack() {
-        window.history.back();
+        function goBack() {
+            window.history.back();
+        }
+    function addToLikedMovies(arr, movieId) {
+        likesString = '[' + likesString + ',' + String(movieId) + ']'
+        console.log(likesString)
+        return likesString
+        //arr.push(movieId)
     }
-    function addToLikedMovies() {
-        console.log("Here is where we need to add movie to liked list")
-    }
+
 </script>
 
 
