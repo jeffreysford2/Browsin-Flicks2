@@ -26,13 +26,20 @@
     border: solid 1px black;
     padding-left: 10px;
     background-color: white;
+    order: 2;
 }
 
 /* New rules if the window width is smaller than 1024px */
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 1024px) {
     #info { 
         width: 100%;
+        flex: 0 0 100%;
+        order: 1;
     }
+    #poster-container{
+        display: none;
+    }
+    
 }
 
 ul {
@@ -157,6 +164,11 @@ h4 {
     position: relative; */
   
 }
+
+#poster-container {
+    order:1;
+    min-width: 200px;
+}
 /* img {
     width: 100%;
     height: auto; 
@@ -243,6 +255,7 @@ h5 {
     align-items: center;
     justify-content: flex-start;
     flex: 0 0 33.333333%;
+    margin-bottom: 10px;
   }
 
 

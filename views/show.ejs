@@ -5,12 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Show</title>
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 
 <body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand ml-auto" href="/">Browsin' Flicks</a>
+            <div class="d-flex">
+                <% if(!currentUser){ %>
+                <a class="nav-link" style="color:white;" href="/login">Login</a>
+                <a class="nav-link" style="color:white;" href="/register">Register</a>
+                <% }else{ %>
+                <a class="nav-link" style="color:white;" href="/logout">Logout</a>
+                <% } %>
+            </div>
+        </div>
+    </nav>
 
     <div class=background-image-container>
         <img class='background-image' src="https://image.tmdb.org/t/p/w1280<%=movie.backdrop_path%>"" alt="">
@@ -19,38 +32,46 @@
 
 
     <div class="movie-container">
-        <div>
-            <img class="poster-image" src="https://image.tmdb.org/t/p/w342<%=movie.poster_path%>" alt="">
+        <div id=poster-container>
+            <img class="poster-image" src="https://image.tmdb.org/t/p/w500<%=movie.poster_path%>" alt="">
         </div>
-        <div id="info">
+        <div id="info" style="background-color: rgb(215, 222, 245);">
             <h1><%=movie.title %> (<%= movie.release_date.substring(0, 4) %>) </h1>
             <% if(currentUser) {%>
+            <% console.log('currentLikes', currentUser.likes) %>
             <% var movieLiked = false; %>
             <% for(let curLike of currentUser.likes) {%>
             <% if(parseInt(curLike) === movie.id) {%>
             <% movieLiked = true; %>
-            <button
-                style="position: relative; float: right; float:top; color:#FFFFFF; background-color: rgb(236, 105, 105);">Click
-                to Dislike</button>
+
             <% } %>
             <% } %>
             <% if(!movieLiked) {%>
             <form action="/<%=movie.id%>" method="POST" class="validated-form" novalidate>
+                <% const likedMovie = true; %>
                 <button id="likeButton"
                     style="position: relative; float: right; float:top; color:#FFFFFF; background-color: lightgreen;">Click
                     to Like</button>
             </form>
 
 
-            <%}%>
-            
+            <%}else{%>
+            <form action="/<%=movie.id%>" method="POST" class="validated-form" novalidate>
+                <button
+                    style="position: relative; float: right; float:top; color:#FFFFFF; background-color: rgb(236, 105, 105);">Click
+                    to Dislike</button>
+            </form>
             <br>
-            
+
+            <% } %>
             <% } %>
             Average Rating: <%=movie.vote_average%><br>
-            <h3>Synopsis:</h3>
+            <br>
+            <b>Synopsis:</b>
             <%= movie.overview %>
-            <h3 id="genres">Genres:</h3>
+            <br>
+            <br>
+            <b id="genres">Genres:</b>
             <% for (let i = 0; i< movie.genres.length; i++){ %>
             <%if(i!==movie.genres.length-1){%>
             <%=movie.genres[i].name %> -
@@ -59,14 +80,15 @@
             <% } %>
             <% } %>
             <br>
-            <br>
+
             <b>Runtime:</b> <%=Math.floor(movie.runtime/60)%>h
-            <%=movie.runtime%60%>min<br>Original Language: <%=movie.original_language%>
+            <%=movie.runtime%60%>min<br>
+            <b>Original Language:</b> <%=movie.original_language%>
             <br>
             <br>
             <b>Staring:</b>
             <div id="cast-container">
-                <% for (let i = 0; i < 6; i ++){ %>
+                <% for (let i = 0; i < 9; i ++){ %>
                 <div id="cast">
                     <img id="cast-images" src="https://image.tmdb.org/t/p/w45<%=cast.cast[i].profile_path%>" alt="">
                     <div id="cast-words">

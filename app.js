@@ -145,34 +145,38 @@ app.get('/:id', catchAsync(async (req, res, next) => {
 }))
 
 app.post('/:id', catchAsync(async (req, res, next) => {
+    console.log('aaaaaaa')
     const movieId = String(req.params.id)
-    console.log('movieId', movieId)
-    console.log('reqDogUser', req.user)
-    console.log('req.user.likes', req.user.likes)
     const currentLikes = req.user.likes
-    console.log(currentLikes)
-    console.log(currentLikes.keys)
-    console.log(typeof (currentLikes))
-    console.log(movieId)
-    console.log(typeof (movieId))
+    const movieOriginallyLiked = currentLikes.includes(movieId);
+    console.log('movieOriginallyLiked', movieOriginallyLiked)
     var currentLikesArray = Array.prototype.slice.call(currentLikes)
-    console.log(currentLikesArray)
-    console.log(typeof (currentLikesArray))
-    var temp = [movieId]
-    var updatedLikes = currentLikesArray.concat(temp)
-    console.log(typeof (updatedLikes))
-    console.log('updatedLikes,', updatedLikes)
-    // res.locals.currentUser = req.user;
-    // console.log('currentUser is:', currentUser)
-    await db.collection("users").updateOne({ username: req.user.username }, { $set: { likes: updatedLikes } })
+    console.log('currentLikes', currentLikes)
+    if (!movieOriginallyLiked) {
+        var temp = [movieId]
+        var updatedLikes = currentLikesArray.concat(temp)
+        console.log(updatedLikes)
+        await db.collection("users").updateOne({ username: req.user.username }, { $set: { likes: updatedLikes } })
+    } else {
+        const index = currentLikesArray.indexOf(movieId);
+        console.log(index, 'index')
+        if (index > -1) {
 
-    console.log(req.user)
+            var updatedLikes = currentLikesArray.splice(index, 1);
+            console.log(currentLikesArray)
+            console.log('updatedLikes', updatedLikes)
+            await db.collection("users").updateOne({ username: req.user.username }, { $set: { likes: currentLikesArray } })
+        }
+
+    }
     const movie = await getMovieById(movieId)
-    await console.log(movie)
     const cast = await getCastById(movieId)
     const watchProvidersUS = await getWatchProvidersById(movieId)
 
-    await setTimeout(res.render('show', { movie, cast, watchProvidersUS }), 1000)
+    //res.render('show', { movie, cast, watchProvidersUS })
+    res.redirect('back');
+
+
 }))
 
 app.listen(3000, () => {
