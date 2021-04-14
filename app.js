@@ -94,8 +94,8 @@ app.post('/register', catchAsync(async (req, res, next) => {
     try {
         const { email, username, password } = req.body;
         const user = new User({ email, username });
-        user.likes.push('791373')
-        user.likes.push('508442')
+        // user.likes.push('791373')
+        // user.likes.push('508442')
         console.log('look', typeof (user.likes))
         const registeredUser = await User.register(user, password);
         console.log(`registerdUser:${registeredUser}`)
@@ -132,9 +132,6 @@ app.get('/logout', async (req, res) => {
 })
 
 app.get('/:id', catchAsync(async (req, res, next) => {
-    console.log('reqDog', req)
-    console.log('reqDogUser', req.user)
-    console.log('typeof', typeof (req.user.likes))
     // res.locals.currentUser = req.user;
     // console.log('currentUser is:', currentUser)
     const movieId = String(req.params.id)
@@ -167,7 +164,7 @@ app.post('/:id', catchAsync(async (req, res, next) => {
     console.log('updatedLikes,', updatedLikes)
     // res.locals.currentUser = req.user;
     // console.log('currentUser is:', currentUser)
-    db.collection("users").updateOne({ username: req.user.username }, { $set: { likes: updatedLikes } })
+    await db.collection("users").updateOne({ username: req.user.username }, { $set: { likes: updatedLikes } })
 
     console.log(req.user)
     const movie = await getMovieById(movieId)
@@ -175,7 +172,7 @@ app.post('/:id', catchAsync(async (req, res, next) => {
     const cast = await getCastById(movieId)
     const watchProvidersUS = await getWatchProvidersById(movieId)
 
-    await res.render('show', { movie, cast, watchProvidersUS })
+    await setTimeout(res.render('show', { movie, cast, watchProvidersUS }), 1000)
 }))
 
 app.listen(3000, () => {
