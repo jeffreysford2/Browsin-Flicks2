@@ -69,8 +69,6 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next) => {
     console.log('req Monkey', req.user)
     res.locals.currentUser = req.user;
-    // res.locals.success = req.flash('success');
-    // res.locals.error = req.flash('error');
     next();
 })
 
@@ -103,7 +101,6 @@ app.post('/register', catchAsync(async (req, res, next) => {
         console.log('response:', res.user)
         req.login(registeredUser, err => {
             if (err) return next(err);
-            //req.flash('success', 'Welcome to Yelp Camp!');
             res.redirect('/');
         })
 
@@ -114,13 +111,11 @@ app.post('/register', catchAsync(async (req, res, next) => {
 
 }))
 module.exports.login = (req, res) => {
-    //res.redirect('/campgrounds')
     const redirectUrl = '/';
     res.redirect(redirectUrl);
 };
 
 app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), async (req, res) => {
-    //res.redirect('/campgrounds')
     console.log('hello')
     const redirectUrl = '/';
     res.redirect(redirectUrl);
@@ -132,8 +127,6 @@ app.get('/logout', async (req, res) => {
 })
 
 app.get('/:id', catchAsync(async (req, res, next) => {
-    // res.locals.currentUser = req.user;
-    // console.log('currentUser is:', currentUser)
     const movieId = String(req.params.id)
     console.log(req.user)
     const movie = await getMovieById(movieId)
@@ -175,8 +168,6 @@ app.post('/:id', catchAsync(async (req, res, next) => {
     const movie = await getMovieById(movieId)
     const cast = await getCastById(movieId)
     const watchProvidersUS = await getWatchProvidersById(movieId)
-
-    //res.render('show', { movie, cast, watchProvidersUS })
     res.redirect('back');
 
 
