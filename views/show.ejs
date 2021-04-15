@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-dark bg-dark">
+    <nav class="navbar navbar-dark" style="background-color: #132C33;">
         <div class="container-fluid">
             <a class="navbar-brand ml-auto" href="/">Browsin' Flicks</a>
             <div class="d-flex">
@@ -35,7 +35,7 @@
         <div id=poster-container>
             <img class="poster-image" src="https://image.tmdb.org/t/p/w500<%=movie.poster_path%>" alt="">
         </div>
-        <div id="info" style="background-color: rgb(215, 222, 245);">
+        <div id="info" style="background-color: #D8E3E7;">
             <h1><%=movie.title %> (<%= movie.release_date.substring(0, 4) %>) </h1>
             <% if(currentUser) {%>
             <% console.log('currentLikes', currentUser.likes) %>
