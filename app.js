@@ -156,16 +156,19 @@ app.post('/:id', catchAsync(async (req, res, next) => {
         var temp = [movieId]
         var updatedLikes = currentLikesArray.concat(temp)
         console.log(updatedLikes)
-        await db.collection("users").updateOne({ username: req.user.username }, { $set: { likes: updatedLikes } })
+        let uniqueLikes = updatedLikes.filter((c, index) => {
+            return updatedLikes.indexOf(c) === index;
+        });
+        await db.collection("users").updateOne({ username: req.user.username }, { $set: { likes: uniqueLikes } })
     } else {
         const index = currentLikesArray.indexOf(movieId);
         console.log(index, 'index')
         if (index > -1) {
-
             var updatedLikes = currentLikesArray.splice(index, 1);
-            console.log(currentLikesArray)
-            console.log('updatedLikes', updatedLikes)
-            await db.collection("users").updateOne({ username: req.user.username }, { $set: { likes: currentLikesArray } })
+            let uniqueLikes = currentLikesArray.filter((c, index) => {
+                return currentLikesArray.indexOf(c) === index;
+            });
+            await db.collection("users").updateOne({ username: req.user.username }, { $set: { likes: uniqueLikes } })
         }
 
     }
@@ -178,6 +181,8 @@ app.post('/:id', catchAsync(async (req, res, next) => {
 
 
 }))
+
+
 
 app.listen(3000, () => {
     console.log('serving on port 3000')
