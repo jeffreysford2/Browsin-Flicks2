@@ -49,10 +49,10 @@ ul {
     margin-bottom: 5px;
 }
 
-#movie-tagline {
+/* #movie-tagline {
     font-weight: bold;
     color: white;
-}
+} */
 
 .movie-container {
     display: flex;
@@ -95,6 +95,7 @@ label {
 
 #cast-images {
     border-radius: 0px;
+    padding-right: 4px;
 }
 
 .genres{

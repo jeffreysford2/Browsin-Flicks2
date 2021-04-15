@@ -29,11 +29,13 @@
                                 <div class="valid-feedback">
                                     Looks good!
                                 </div>
+
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label" for="password">Password</label>
-                                <input class="form-control" type="password" id="password" name="password" required>
+                                <input class="form-control" pattern="[a-zA-Z0-9!@#$%^*_|]{6,25}" type="password"
+                                    id="password" name="password" required>
                                 <div class="valid-feedback">
                                     Looks good!
                                 </div>
@@ -47,6 +49,27 @@
     </div>
 
 
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
 </body>
 
 </html>
