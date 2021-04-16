@@ -104,7 +104,6 @@ app.post('/register', catchAsync(async (req, res, next) => {
         const errorMessage = e.message;
         res.redirect('/register');
     }
-
 }))
 module.exports.login = (req, res) => {
     const redirectUrl = '/';
