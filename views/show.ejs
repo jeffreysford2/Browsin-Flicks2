@@ -38,7 +38,7 @@
         <div id="info" style="background-color: #D8E3E7;">
             <h1><%=movie.title %> (<%= movie.release_date.substring(0, 4) %>) </h1>
             <% if(currentUser) {%>
-            <% console.log('currentLikes', currentUser.likes) %>
+
             <% var movieLiked = false; %>
             <% for(let curLike of currentUser.likes) {%>
             <% if(parseInt(curLike) === movie.id) {%>

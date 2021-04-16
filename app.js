@@ -79,7 +79,6 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-    console.log('req Monkey', req.user)
     res.locals.currentUser = req.user;
     next();
 })
@@ -105,11 +104,11 @@ app.post('/register', catchAsync(async (req, res, next) => {
         const user = new User({ email, username });
         // user.likes.push('791373')
         // user.likes.push('508442')
-        console.log('look', typeof (user.likes))
+
         const registeredUser = await User.register(user, password);
-        console.log(`registerdUser:${registeredUser}`)
+
         const name = await registeredUser.username
-        console.log('response:', res.user)
+
         req.login(registeredUser, err => {
             if (err) return next(err);
             res.redirect('/');
@@ -125,7 +124,7 @@ module.exports.login = (req, res) => {
 };
 
 app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), async (req, res) => {
-    console.log('hello')
+
     const redirectUrl = '/';
     res.redirect(redirectUrl);
 });
@@ -137,9 +136,9 @@ app.get('/logout', async (req, res) => {
 
 app.get('/:id', catchAsync(async (req, res, next) => {
     const movieId = String(req.params.id)
-    console.log(req.user)
+
     const movie = await getMovieById(movieId)
-    await console.log(movie)
+
     const cast = await getCastById(movieId)
     const watchProvidersUS = await getWatchProvidersById(movieId)
 
@@ -147,24 +146,24 @@ app.get('/:id', catchAsync(async (req, res, next) => {
 }))
 
 app.post('/:id', catchAsync(async (req, res, next) => {
-    console.log('aaaaaaa')
+
     const movieId = String(req.params.id)
     const currentLikes = req.user.likes
     const movieOriginallyLiked = currentLikes.includes(movieId);
-    console.log('movieOriginallyLiked', movieOriginallyLiked)
+
     var currentLikesArray = Array.prototype.slice.call(currentLikes)
-    console.log('currentLikes', currentLikes)
+
     if (!movieOriginallyLiked) {
         var temp = [movieId]
         var updatedLikes = currentLikesArray.concat(temp)
-        console.log(updatedLikes)
+
         let uniqueLikes = updatedLikes.filter((c, index) => {
             return updatedLikes.indexOf(c) === index;
         });
         await db.collection("users").updateOne({ username: req.user.username }, { $set: { likes: uniqueLikes } })
     } else {
         const index = currentLikesArray.indexOf(movieId);
-        console.log(index, 'index')
+
         if (index > -1) {
             var updatedLikes = currentLikesArray.splice(index, 1);
             let uniqueLikes = currentLikesArray.filter((c, index) => {
@@ -202,7 +201,7 @@ function analyzeObject(obj) {
     for (let j = 0; j < totalFilters; j++) {
         filters.push(String(Object.keys(filterValues)[j]))
     }
-    console.log('filters=', filters)
+
 
     // const genresTypes = []
 
@@ -210,7 +209,7 @@ function analyzeObject(obj) {
     //     genresTypes.push(String(Object.values(genreList)[j].name).toLowerCase())
     // }
     const genresTypes = Object.keys(genreList)
-    console.log(genresTypes)
+
     // console.log(genresTypesTwo)
 
     const intersection = filters.filter(element => genresTypes.includes(element));
@@ -220,20 +219,20 @@ function analyzeObject(obj) {
         codes = codes + genreList[genre] + ','
     }
     const editedCodes = codes.slice(0, -1)
-    console.log(codes)
+
 
     genreString = genreString + `&with_genres=${editedCodes}`
 
-    console.log(codes)
+
     const filterString = ratingString + minYearString + maxYearString + wellKnownString + genreString + '&sort_by=vote_average.desc'
-    console.log(filterString)
+
     return filterString;
 }
 
 async function browseMovies(filterString) {
     const path = '/discover/movie/';
     const url = generateUrl(path) + `${filterString}`
-    console.log(url)
+
     const movies = await requestMovies(url, renderSearchMovies, handleError)
     return movies
 }
