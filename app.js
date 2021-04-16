@@ -99,7 +99,6 @@ app.post('/register', catchAsync(async (req, res, next) => {
             if (err) return next(err);
             res.redirect('/');
         })
-
     } catch (e) {
         const errorMessage = e.message;
         res.redirect('/register');
