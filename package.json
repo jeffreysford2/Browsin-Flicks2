@@ -1,11 +1,8 @@
 {
-  "name": "MovieBrowse",
+  "name": "movieBrowse",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "engines": {
-    "node": "14.15.4"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,14 +19,15 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "fast-average-color": "^6.3.0",
+    "ionic-native": "https://github.com/ionic-team/ionic-native/tarball/v3.5.0",
+    "jq": "^1.7.2",
     "method-override": "^3.0.0",
     "mongodb": "^3.6.6",
-    "mongoose": "^5.12.3",
+    "mongoose": "^5.12.4",
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.7",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^6.1.0",
-    "type": "module"
+    "passport-local-mongoose": "^6.1.0"
   }
 }
