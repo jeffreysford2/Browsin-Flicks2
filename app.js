@@ -157,7 +157,6 @@ app.post('/:id', catchAsync(async (req, res, next) => {
             });
             await db.collection("users").updateOne({ username: req.user.username }, { $set: { likes: uniqueLikes } })
         }
-
     }
     const movie = await getMovieById(movieId)
     const cast = await getCastById(movieId)
