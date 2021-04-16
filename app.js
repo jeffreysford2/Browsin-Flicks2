@@ -69,7 +69,6 @@ app.use((req, res, next) => {
     next();
 })
 
-
 app.get('/', async (req, res) => {
     const filterVals = req.query
     const endPoint = analyzeObject(req)
