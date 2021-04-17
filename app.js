@@ -83,20 +83,20 @@ app.use((req, res, next) => {
     next();
 })
 
-app.get('/', async (req, res) => {
+app.get('/', catchAsync(async (req, res) => {
     const filterVals = req.query
     const endPoint = analyzeObject(req)
     const movies = await browseMovies(endPoint)
     await res.render('home', { movies, filterVals })
-})
+}))
 
-app.get('/login', async (req, res) => {
+app.get('/login', catchAsync(async (req, res) => {
     await res.render('users/login')
-})
+}))
 
-app.get('/register', async (req, res) => {
+app.get('/register', catchAsync(async (req, res) => {
     await res.render('users/register')
-})
+}))
 
 app.post('/register', catchAsync(async (req, res, next) => {
     try {
@@ -123,16 +123,16 @@ module.exports.login = (req, res) => {
     res.redirect(redirectUrl);
 };
 
-app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), async (req, res) => {
+app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), catchAsync(async (req, res) => {
 
     const redirectUrl = '/';
     res.redirect(redirectUrl);
-});
+}));
 
-app.get('/logout', async (req, res) => {
+app.get('/logout', catchAsync(async (req, res) => {
     req.logout();
     res.redirect('/');
-})
+}))
 
 app.get('/:id', catchAsync(async (req, res, next) => {
     const movieId = String(req.params.id)
