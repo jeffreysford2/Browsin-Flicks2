@@ -30,6 +30,10 @@
     order: 2;
 }
 
+#genre-container{
+    margin: 10px;
+}
+
 /* New rules if the window width is smaller than 1024px */
 @media screen and (max-width: 1024px) {
     #info { 
@@ -40,8 +44,19 @@
     #poster-container{
         display: none;
     }
+    #genre-container{
+        width: 100%;
+        margin: 0px;
+    }
+    #cast{
+        flex-basis: 100%;
+        margin: 10px;
+    }
+
     
 }
+
+
 
 ul {
     margin-top: 0px;
@@ -257,9 +272,10 @@ h5 {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    flex: 0 0 33.333333%;
-    margin-bottom: 10px;
-  }
+    flex: 33.333333%;
+    margin: 10px;
+    min-width: 200px;    
+}
 
 
   #cast-container{
@@ -267,6 +283,7 @@ h5 {
       flex-direction: row;
       flex-wrap: wrap;
       justify-content: space-between;
+      flex-flow: row wrap;
 
 
   }
@@ -277,7 +294,7 @@ h5 {
       margin-left: 10px;
   }
   .slider{
-      width: 200px;
+      width: 80%;
   }
 
   #cast-images{

@@ -90,7 +90,9 @@
             <div id="cast-container">
                 <% for (let i = 0; i < 9; i ++){ %>
                 <div id="cast">
+                    <% if(cast.cast[i].profile_path){ %>
                     <img id="cast-images" src="https://image.tmdb.org/t/p/w45<%=cast.cast[i].profile_path%>" alt="">
+                    <% } %>
                     <div id="cast-words">
                         <div id="cast-names"><%=cast.cast[i].name %></div>
 

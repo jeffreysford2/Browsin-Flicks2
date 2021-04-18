@@ -26,6 +26,8 @@
         </div>
     </nav>
 
+    <b class="instructions">Use the filters to browse for a movie.</b>
+
     <form action="/" method="GET" class="filter-container">
         <div class='row'>
             <div class="card col-md-3 col-xs-12 mx-auto shadow border-dark" style="border-radius: 10px; margin:10px;">
@@ -58,20 +60,22 @@
             </div>
             <div class="card col-md-3 col-xs-12 mx-auto shadow border-dark" style="border-radius: 10px; margin:10px;">
                 <div class="card-body" id="filter-block2">
-                    <b style="font-size:16px;">Choose a minimum of how well known movie is:</b>
+                    <b style="font-size:16px;">On a scale of 1-10, choose how well known the movie is:</b>
                     <div class="slider">
                         <label class="form-label" for="wellKnown"></label>
-                        <output id="wellKnownOutput" name="wellKnownOutput" for="wellKnown"><%if(filterVals.wellKnown<2000){%>Unknown<%}%></output>
+                        <output id="wellKnownOutput" name="wellKnownOutput"
+                            for="wellKnown"><%=filterVals.wellKnown/800%></output>
 
-            <input type="range" class="form-range" id="wellKnown2" name="wellKnown" min="0" max="8000" step="1" styles="width:50px;"
-                value="<%=filterVals.wellKnown%>">
-                            <p></p>
+                        <input type="range" class="form-range" id="wellKnown" name="wellKnown" min="0" max="8000"
+                            step="800" styles="width:50px;" value="<%=filterVals.wellKnown%>"
+                            oninput="Math.round(wellKnownOutput.value=wellKnown.value/800)">
+                        <p></p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="card shadow border-dark" style="border-radius: 10px; margin:10px;">
+        <div id="genre-container" class="card shadow border-dark" style="border-radius: 10px;">
             <b>Genres:</b>
             <div id="new-genre-container" class="flex-wrap">
                 <div class="form-check form-check-inline" style="width:100px;">
