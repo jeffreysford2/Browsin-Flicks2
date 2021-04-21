@@ -102,13 +102,8 @@ app.post('/register', catchAsync(async (req, res, next) => {
     try {
         const { email, username, password } = req.body;
         const user = new User({ email, username });
-        // user.likes.push('791373')
-        // user.likes.push('508442')
-
         const registeredUser = await User.register(user, password);
-
         const name = await registeredUser.username
-
         req.login(registeredUser, err => {
             if (err) return next(err);
             res.redirect('/');
@@ -124,7 +119,6 @@ module.exports.login = (req, res) => {
 };
 
 app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), catchAsync(async (req, res) => {
-
     const redirectUrl = '/';
     res.redirect(redirectUrl);
 }));
@@ -136,23 +130,17 @@ app.get('/logout', catchAsync(async (req, res) => {
 
 app.get('/:id', catchAsync(async (req, res, next) => {
     const movieId = String(req.params.id)
-
     const movie = await getMovieById(movieId)
-
     const cast = await getCastById(movieId)
     const watchProvidersUS = await getWatchProvidersById(movieId)
-
     await res.render('show', { movie, cast, watchProvidersUS })
 }))
 
 app.post('/:id', catchAsync(async (req, res, next) => {
-
     const movieId = String(req.params.id)
     const currentLikes = req.user.likes
     const movieOriginallyLiked = currentLikes.includes(movieId);
-
     var currentLikesArray = Array.prototype.slice.call(currentLikes)
-
     if (!movieOriginallyLiked) {
         var temp = [movieId]
         var updatedLikes = currentLikesArray.concat(temp)
@@ -163,7 +151,6 @@ app.post('/:id', catchAsync(async (req, res, next) => {
         await db.collection("users").updateOne({ username: req.user.username }, { $set: { likes: uniqueLikes } })
     } else {
         const index = currentLikesArray.indexOf(movieId);
-
         if (index > -1) {
             var updatedLikes = currentLikesArray.splice(index, 1);
             let uniqueLikes = currentLikesArray.filter((c, index) => {
@@ -176,14 +163,12 @@ app.post('/:id', catchAsync(async (req, res, next) => {
     const cast = await getCastById(movieId)
     const watchProvidersUS = await getWatchProvidersById(movieId)
     res.redirect('back');
-
-
 }))
 
 const port = process.env.PORT || 3000
 
 app.listen(port, () => {
-    console.log(`serving on port 3000 ${port}`)
+    console.log(`serving on port ${port}`)
 })
 
 //*********Middleware before rendering show********
@@ -201,16 +186,7 @@ function analyzeObject(obj) {
     for (let j = 0; j < totalFilters; j++) {
         filters.push(String(Object.keys(filterValues)[j]))
     }
-
-
-    // const genresTypes = []
-
-    // for (let j = 0; j < length; j++) {
-    //     genresTypes.push(String(Object.values(genreList)[j].name).toLowerCase())
-    // }
     const genresTypes = Object.keys(genreList)
-
-    // console.log(genresTypesTwo)
 
     const intersection = filters.filter(element => genresTypes.includes(element));
 
