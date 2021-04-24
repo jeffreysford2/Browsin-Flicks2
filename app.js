@@ -83,10 +83,11 @@ app.use((req, res, next) => {
     next();
 })
 
+//render Home screen.
 app.get('/', catchAsync(async (req, res) => {
     const filterVals = req.query
-    const endPoint = analyzeObject(req)
-    const movies = await browseMovies(endPoint)
+    const endPoint = analyzeFilters(req)
+    const movies = await getbrowseMovies(endPoint)
     await res.render('home', { movies, filterVals })
 }))
 
@@ -173,7 +174,8 @@ app.listen(port, () => {
 
 //*********Middleware before rendering show********
 
-function analyzeObject(obj) {
+//Converts the filter input into an endpoint string
+function analyzeFilters(obj) {
     const filterValues = obj.query
     var genreString = ''
     ratingString = `&vote_average.gte=${filterValues.rating}`
@@ -187,37 +189,32 @@ function analyzeObject(obj) {
         filters.push(String(Object.keys(filterValues)[j]))
     }
     const genresTypes = Object.keys(genreList)
-
     const intersection = filters.filter(element => genresTypes.includes(element));
-
     let codes = ''
     for (let genre of intersection) {
         codes = codes + genreList[genre] + ','
     }
     const editedCodes = codes.slice(0, -1)
-
-
     genreString = genreString + `&with_genres=${editedCodes}`
-
-
     const filterString = ratingString + minYearString + maxYearString + wellKnownString + genreString + '&sort_by=vote_average.desc'
-
     return filterString;
 }
 
-async function browseMovies(filterString) {
+//Returns movies based on the string input from the filters
+async function getbrowseMovies(filterString) {
     const path = '/discover/movie/';
     const url = generateUrl(path) + `${filterString}`
-
     const movies = await requestMovies(url, renderSearchMovies, handleError)
     return movies
 }
 
+//generates a url based on the path
 function generateUrl(path) {
     const url = `https://api.themoviedb.org/3${path}?api_key=${API_KEY}`;
     return url;
 }
 
+//requests movies from the API
 async function requestMovies(url, onComplete, onError) {
     const response = await fetch(url)
         .then((res) => res.json())
@@ -226,20 +223,14 @@ async function requestMovies(url, onComplete, onError) {
     return response
 }
 
-async function requestMovie(url, onComplete, onError) {
-    const response = await fetch(url)
-        .then((res) => res.json())
-        .then(onComplete)
-        .catch(onError)
-    return response
-}
-
+//returns multiple movies
 function renderSearchMovies(data) {
     const movies = data.results;
     return movies
 }
 
-function renderSearchMovie(data) {
+//returns one movie
+function renderSearchOneMovie(data) {
     const movie = data;
     return movie
 }
@@ -261,26 +252,24 @@ Object.size = function (obj) {
 async function getMovieById(stringId) {
     const path = `/movie/${stringId}`
     const url = generateUrl(path)
-    const movie = await requestMovie(url, renderSearchMovie, handleError)
+    const movie = await requestMovies(url, renderSearchOneMovie, handleError)
     return movie
 }
 
 async function getCastById(stringId) {
     const path = `/movie/${stringId}/credits`
     const url = generateUrl(path)
-
-    const cast = await requestMovie(url, renderSearchMovie, handleError)
+    const cast = await requestMovies(url, renderSearchOneMovie, handleError)
     return cast
 }
 
 async function getWatchProvidersById(movieId) {
     const path = `/movie/${movieId}/watch/providers`
     const url = generateUrl(path)
-    const watchProviders = await requestMovie(url, renderSearchMovie, handleError)
+    const watchProviders = await requestMovies(url, renderSearchOneMovie, handleError)
     const watchProvidersUS = watchProviders.results.US
     return watchProvidersUS
 }
-
 
 genreList = {
     "action": 28,
