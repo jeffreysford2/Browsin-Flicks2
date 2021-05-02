@@ -86,9 +86,17 @@ app.use((req, res, next) => {
 //render Home screen.
 app.get('/', catchAsync(async (req, res) => {
     const filterVals = req.query
-    const endPoint = analyzeFilters(req)
-    const movies = await getbrowseMovies(endPoint)
-    await res.render('home', { movies, filterVals })
+    //if no filterVals
+    let movies = []
+    let showingTrending = {}
+    if (Object.size(filterVals) === 0) {
+        movies = await getTrendingMovies()
+        showingTrending.trending = true
+    } else {
+        const endPoint = analyzeFilters(req)
+        movies = await getMovies(endPoint)
+    }
+    await res.render('home', { movies, filterVals, showingTrending })
 }))
 
 app.get('/login', catchAsync(async (req, res) => {
@@ -201,10 +209,18 @@ function analyzeFilters(obj) {
 }
 
 //Returns movies based on the string input from the filters
-async function getbrowseMovies(filterString) {
+async function getMovies(filterString) {
     const path = '/discover/movie/';
     const url = generateUrl(path) + `${filterString}`
     const movies = await requestMovies(url, renderSearchMovies, handleError)
+    return movies
+}
+
+async function getTrendingMovies() {
+    const path = '/trending/movie/week';
+    const url = generateUrl(path)
+    const movies = await requestMovies(url, renderSearchMovies, handleError)
+
     return movies
 }
 
@@ -238,6 +254,7 @@ function renderSearchOneMovie(data) {
 function handleError(error) {
     console.log('Error: ', error)
 }
+
 
 
 Object.size = function (obj) {

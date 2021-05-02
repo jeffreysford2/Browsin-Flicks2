@@ -64,7 +64,7 @@
                     <div class="slider">
                         <label class="form-label" for="wellKnown"></label>
                         <output id="wellKnownOutput" name="wellKnownOutput"
-                            for="wellKnown"><%=filterVals.wellKnown/800%></output>
+                            for="wellKnown"><%isNaN(filterVals.wellKnown/800) ? '' : filterVals.wellKnown/800 %></output>
 
                         <input type="range" class="form-range" id="wellKnown" name="wellKnown" min="0" max="8000"
                             step="800" styles="width:50px;" value="<%=filterVals.wellKnown%>"
@@ -174,10 +174,13 @@
                 </div>
             </div>
         </div>
-        <button type="submit" id="browse">Browse movies by filters</button>
+        <button type="submit" id="browse">Browse movies</button>
     </form>
 
     <div id="container">
+        <%if (showingTrending.trending === true){ %>
+            <div style="width:100%; height:0px;"><h3 style="position:relative; top:-50px; text-align: center;">Trending Movies</h3></div>
+        <% } %> 
         <% if(typeof movies !== 'undefined'){ %>
         <% for (let movie of movies){ %>
         <a href="/<%=movie.id%>">
