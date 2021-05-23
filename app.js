@@ -18,6 +18,7 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const isLoggedIn = require('./middleware');
 const catchAsync = require('./utils/catchAsync');
+var favicon = require('serve-favicon');
 
 
 const MongoDBStore = require("connect-mongo")(session);
@@ -30,6 +31,7 @@ mongoose.connect(dbUrl, {
     useUnifiedTopology: true,
     useFindAndModify: false
 });
+
 
 
 const db = mongoose.connection;
@@ -77,6 +79,8 @@ passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+
 
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
